@@ -4,20 +4,14 @@
 
 ## 先找对路径（重要）
 
-所有配置中的 `mcp/mcp-server.py` 路径都必须填**绝对路径**。本机路径为：
-
-```
-/Users/lifudong/projects/md2pdf/mcp/mcp-server.py
-```
-
-如果你的项目在其他位置，先找到它：
+所有配置中的 `mcp/mcp-server.py` 路径都必须填**绝对路径**。
 
 ```bash
-# 在项目目录下执行
+# 在项目目录下执行，拿到真实路径
 realpath mcp/mcp-server.py
 ```
 
-把输出的路径替换到下文所有配置中。
+把输出的完整路径替换到下文所有示例中的 `/chemin/vers/md2pdf` 部分。
 
 ## 工作原理
 
@@ -47,7 +41,7 @@ AI 智能体 (Codex/Cherry Studio/Cursor/WorkBuddy)
   "mcpServers": {
     "md2pdf": {
       "command": "python",
-      "args": ["/Users/lifudong/projects/md2pdf/mcp/mcp-server.py"]
+      "args": ["/chemin/vers/md2pdf/mcp/mcp-server.py"]
     }
   }
 }
@@ -60,7 +54,7 @@ AI 智能体 (Codex/Cherry Studio/Cursor/WorkBuddy)
 ```toml
 [mcpServers.md2pdf]
 command = "python"
-args = ["/Users/lifudong/projects/md2pdf/mcp/mcp-server.py"]
+args = ["/chemin/vers/md2pdf/mcp/mcp-server.py"]
 ```
 
 ### Cherry Studio（UI 表单）
@@ -72,7 +66,7 @@ args = ["/Users/lifudong/projects/md2pdf/mcp/mcp-server.py"]
 | **类型** | `标准输入/输出（stdio）` |
 | **名称** | `md2pdf` |
 | **命令** | `python` |
-| **参数**（一行一个） | `/Users/lifudong/projects/md2pdf/mcp/mcp-server.py` |
+| **参数**（一行一个） | `/chemin/vers/md2pdf/mcp/mcp-server.py` |
 | **环境变量** | 留空 |
 | **是否支持长时间运行模式** | 可选（建议开启） |
 
@@ -81,7 +75,7 @@ args = ["/Users/lifudong/projects/md2pdf/mcp/mcp-server.py"]
 在 WorkBuddy 的 MCP 工具配置中注册，命令填写：
 
 ```
-python /Users/lifudong/projects/md2pdf/mcp/mcp-server.py
+python3 /chemin/vers/md2pdf/mcp/mcp-server.py
 ```
 
 ## 可用工具
@@ -120,7 +114,7 @@ python /Users/lifudong/projects/md2pdf/mcp/mcp-server.py
 
 ```bash
 # 启动 MCP 服务（stdio 模式，等待 MCP 协议消息）
-python /Users/lifudong/projects/md2pdf/mcp/mcp-server.py
+python3 /chemin/vers/md2pdf/mcp/mcp-server.py
 
 # 或在项目目录下用相对路径
 # python mcp/mcp-server.py

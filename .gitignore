@@ -14,7 +14,7 @@ venv/
 env/
 .env/
 
-# IDE
+# IDE/editor
 .vscode/
 .idea/
 *.swp
@@ -25,11 +25,13 @@ env/
 .DS_Store
 Thumbs.db
 
-# Agent system (local only, not part of the project)
+# Agent system (local only)
 .agents/
-
-# Test / temp
-/tmp/
 
 # Agent work docs
 TASK.md
+DONE.md
+notes/
+
+# Test / temp
+/tmp/

@@ -5,15 +5,15 @@ MCP Server for md2pdf — 将 md2pdf 作为 MCP 工具暴露给 AI 智能体。
 启动方式:
     python mcp/mcp-server.py
 
-本机绝对路径:
-    /Users/lifudong/projects/md2pdf/mcp/mcp-server.py
+找路径:
+    在项目目录下执行: realpath mcp/mcp-server.py
 
 通用 JSON 配置（Codex / Cursor / Claude Desktop / OpenCode）:
     {
         "mcpServers": {
             "md2pdf": {
                 "command": "python3",
-                "args": ["/Users/lifudong/projects/md2pdf/mcp/mcp-server.py"]
+                "args": ["/chemin/vers/md2pdf/mcp/mcp-server.py"]
             }
         }
     }
@@ -22,7 +22,7 @@ Cherry Studio 配置（UI 表单）:
     类型: 标准输入/输出（stdio）
     名称: md2pdf
     命令: python3
-    参数（一行一个）: /Users/lifudong/projects/md2pdf/mcp/mcp-server.py
+    参数（一行一个）: /chemin/vers/md2pdf/mcp/mcp-server.py
     环境变量: 留空
     长时间运行模式: 建议开启
 """

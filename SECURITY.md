@@ -1,21 +1,25 @@
-# Security Policy
+# 安全策略
 
-## Supported Versions
+## 支持的版本
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+| 版本 | 支持状态 |
+|------|---------|
+| 1.0.x | ✅ 安全更新支持 |
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+## 报告安全漏洞
 
-## Reporting a Vulnerability
+如果你发现了安全漏洞，**请不要公开提交 Issue**。
 
-Use this section to tell people how to report a vulnerability.
+请通过以下方式私下报告：
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+1. **GitHub Security Advisory**: 在仓库页面点击 `Security` → `Report a vulnerability`
+2. **直接联系**: 发送邮件至仓库所有者邮箱
+
+我们会在收到报告后 **48 小时内**回复确认，并尽快发布修复。
+
+## 安全准则
+
+- 本项目不收集任何用户数据
+- 所有转换在本地完成，不上传文件到外部服务
+- WeasyPrint 依赖系统级库，请通过官方渠道安装
+- 发现依赖项有安全 CVE，请及时报告

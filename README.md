@@ -214,14 +214,12 @@ md2pdf 可作为 **MCP (Model Context Protocol) 服务**运行，被 Codex、Che
 
 > ⚠️ **重要：路径说明**
 > 以下所有配置中的 `mcp/mcp-server.py` 路径必须填**绝对路径**。
-> 本机路径为：**`/Users/lifudong/projects/md2pdf/mcp/mcp-server.py`**
->
-> 如果你的项目克隆到了其他位置，请先找到真实路径：
+> 请先找到本机上的真实路径：
 > ```bash
 > # 在项目目录下执行
 > realpath mcp/mcp-server.py
 > ```
-> 然后用输出的完整路径替换下方配置。
+> 然后用输出的完整路径替换下面示例中的 `/chemin/vers/md2pdf` 部分。
 
 ### 暴露的工具
 
@@ -236,8 +234,8 @@ md2pdf 可作为 **MCP (Model Context Protocol) 服务**运行，被 Codex、Che
 {
   "mcpServers": {
     "md2pdf": {
-      "command": "python",
-      "args": ["/Users/lifudong/projects/md2pdf/mcp/mcp-server.py"]
+      "command": "python3",
+      "args": ["/chemin/vers/md2pdf/mcp/mcp-server.py"]
     }
   }
 }
@@ -249,8 +247,8 @@ md2pdf 可作为 **MCP (Model Context Protocol) 服务**运行，被 Codex、Che
 
 ```toml
 [mcpServers.md2pdf]
-command = "python"
-args = ["/Users/lifudong/projects/md2pdf/mcp/mcp-server.py"]
+command = "python3"
+args = ["/chemin/vers/md2pdf/mcp/mcp-server.py"]
 ```
 
 ### Cherry Studio（UI 表单）
@@ -261,14 +259,14 @@ args = ["/Users/lifudong/projects/md2pdf/mcp/mcp-server.py"]
 |------|-----|
 | **类型** | `标准输入/输出（stdio）` |
 | **名称** | `md2pdf` |
-| **命令** | `python` |
-| **参数**（一行一个） | `/Users/lifudong/projects/md2pdf/mcp/mcp-server.py` |
+| **命令** | `python3` |
+| **参数**（一行一个） | `/chemin/vers/md2pdf/mcp/mcp-server.py` |
 | **环境变量** | 留空 |
 | **是否支持长时间运行模式** | 可选（建议开启） |
 
 ### WorkBuddy
 
-在 WorkBuddy 的 MCP 设置中注册，命令填写：`python /Users/lifudong/projects/md2pdf/mcp/mcp-server.py`。
+在 WorkBuddy 的 MCP 设置中注册，命令填写：`python3 /chemin/vers/md2pdf/mcp/mcp-server.py`。
 
 ---
 
