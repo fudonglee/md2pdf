@@ -88,16 +88,22 @@ def md_to_html(
 
 
 def _find_weasyprint() -> str | None:
-    candidates = [
+    import shutil
+
+    # Priority 1: known-good conda installation (most reliable on macOS)
+    conda_paths = [
         "/opt/anaconda3/bin/weasyprint",
     ]
-    import shutil
+    for p in conda_paths:
+        if os.path.isfile(p) and os.access(p, os.X_OK):
+            return p
+
+    # Priority 2: from PATH (pip-installed, may be broken on macOS)
     wp = shutil.which("weasyprint")
     if wp:
         return wp
-    for p in candidates:
-        if os.path.isfile(p) and os.access(p, os.X_OK):
-            return p
+
+    # Priority 3: common fallback locations
     extra = [
         "/usr/local/bin/weasyprint",
         "/usr/bin/weasyprint",
