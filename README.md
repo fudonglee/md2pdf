@@ -212,56 +212,63 @@ md2pdf input.md -o output.pdf --toc --cover --title "Document" --lang en
 
 md2pdf 可作为 **MCP (Model Context Protocol) 服务**运行，被 Codex、Cherry Studio、Cursor、WorkBuddy 等智能体调用。
 
-### 配置方式
+> ⚠️ **重要：路径说明**
+> 以下所有配置中的 `mcp/mcp-server.py` 路径必须填**绝对路径**。
+> 本机路径为：**`/Users/fudonglee/projects/md2pdf/mcp/mcp-server.py`**
+>
+> 如果你的项目克隆到了其他位置，请先找到真实路径：
+> ```bash
+> # 在项目目录下执行
+> realpath mcp/mcp-server.py
+> ```
+> 然后用输出的完整路径替换下方配置。
 
-在智能体的 MCP 配置中添加：
+### 暴露的工具
+
+| 工具名称 | 说明 |
+|---------|------|
+| `md2pdf_convert` | 将 Markdown 文本转换为 PDF/HTML（返回 base64） |
+| `md2pdf_convert_file` | 将 `.md` 文件转换为 `.pdf/.html` 文件 |
+
+### 通用 JSON 配置（Codex / Cursor / Claude Desktop / OpenCode）
 
 ```json
 {
   "mcpServers": {
     "md2pdf": {
       "command": "python",
-      "args": ["/path/to/md2pdf/mcp/mcp-server.py"]
+      "args": ["/Users/fudonglee/projects/md2pdf/mcp/mcp-server.py"]
     }
   }
 }
 ```
 
-### 暴露的工具
+### Codex（TOML 格式）
 
-| 工具名称 | 说明 |
-|---------|------|
-| `md2pdf_convert` | 将 Markdown 文本转换为 PDF（返回 base64） |
-| `md2pdf_convert_file` | 将 `.md` 文件转换为 `.pdf` 文件（指定路径） |
-
-### 在 Codex 中使用
-
-在 Codex 的 `~/.codex/config.toml` 中添加：
+在 `~/.codex/config.toml` 中添加：
 
 ```toml
 [mcpServers.md2pdf]
 command = "python"
-args = ["/path/to/md2pdf/mcp/mcp-server.py"]
+args = ["/Users/fudonglee/projects/md2pdf/mcp/mcp-server.py"]
 ```
 
-### 在 Cherry Studio 中使用
+### Cherry Studio（UI 表单）
 
-Cherry Studio 使用 UI 表单配置 MCP，不是 JSON。打开 **设置 → MCP 服务器 → 添加**：
+打开 **设置 → MCP 服务器 → 添加**，逐项填写：
 
 | 字段 | 值 |
 |------|-----|
 | **类型** | `标准输入/输出（stdio）` |
 | **名称** | `md2pdf` |
 | **命令** | `python` |
-| **参数**（一行一个） | `/绝对路径/md2pdf/mcp/mcp-server.py` |
+| **参数**（一行一个） | `/Users/fudonglee/projects/md2pdf/mcp/mcp-server.py` |
 | **环境变量** | 留空 |
 | **是否支持长时间运行模式** | 可选（建议开启） |
 
-> 提示：参数行填的是 `mcp/mcp-server.py` 的**绝对路径**，例如 `/Users/fudonglee/projects/md2pdf/mcp/mcp-server.py`。
+### WorkBuddy
 
-### 在 WorkBuddy 中使用
-
-在 WorkBuddy 的 MCP 设置中注册 md2pdf 服务端点即可。
+在 WorkBuddy 的 MCP 设置中注册，命令填写：`python /Users/fudonglee/projects/md2pdf/mcp/mcp-server.py`。
 
 ---
 
