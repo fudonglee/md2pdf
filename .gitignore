@@ -30,3 +30,6 @@ Thumbs.db
 
 # Test / temp
 /tmp/
+
+# Agent work docs
+TASK.md
