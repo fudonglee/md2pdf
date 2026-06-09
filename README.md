@@ -246,7 +246,18 @@ args = ["/path/to/md2pdf/mcp/mcp-server.py"]
 
 ### 在 Cherry Studio 中使用
 
-在 Cherry Studio 的 MCP 配置中添加相同的 JSON 配置。
+Cherry Studio 使用 UI 表单配置 MCP，不是 JSON。打开 **设置 → MCP 服务器 → 添加**：
+
+| 字段 | 值 |
+|------|-----|
+| **类型** | `标准输入/输出（stdio）` |
+| **名称** | `md2pdf` |
+| **命令** | `python` |
+| **参数**（一行一个） | `/绝对路径/md2pdf/mcp/mcp-server.py` |
+| **环境变量** | 留空 |
+| **是否支持长时间运行模式** | 可选（建议开启） |
+
+> 提示：参数行填的是 `mcp/mcp-server.py` 的**绝对路径**，例如 `/Users/fudonglee/projects/md2pdf/mcp/mcp-server.py`。
 
 ### 在 WorkBuddy 中使用
 

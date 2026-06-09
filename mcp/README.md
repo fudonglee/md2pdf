@@ -40,14 +40,30 @@ AI 智能体 (Codex/Cherry Studio)
 
 ### 各平台配置位置
 
-| 平台 | 配置文件位置 |
-|------|-------------|
+| 平台 | 配置方式 |
+|------|---------|
 | **Codex** | `~/.codex/config.toml` |
-| **Cherry Studio** | 设置 → MCP 服务器 |
+| **Cherry Studio** | 设置 → MCP 服务器 → 添加（见下方 Cherry Studio 专属配置） |
 | **Cursor** | `.cursor/mcp.json` |
 | **OpenCode** | `opencode.json` 中的 mcpServers |
 | **Claude Desktop** | `claude_desktop_config.json` |
 | **WorkBuddy** | 插件 MCP 配置 |
+
+### Cherry Studio 专属配置
+
+Cherry Studio 使用 UI 表单配置 MCP，打开 **设置 → MCP 服务器 → 添加**，填写：
+
+| 字段 | 值 |
+|------|-----|
+| **类型** | `标准输入/输出（stdio）` |
+| **名称** | `md2pdf` |
+| **命令** | `python` |
+| **参数**（一行一个） | `/绝对路径/md2pdf/mcp/mcp-server.py` |
+| **环境变量** | 留空 |
+| **是否支持长时间运行模式** | 可选（建议开启） |
+
+> 参数行必须填 `mcp/mcp-server.py` 的**绝对路径**。
+> 示例：`/Users/fudonglee/projects/md2pdf/mcp/mcp-server.py`
 
 ## 可用工具
 

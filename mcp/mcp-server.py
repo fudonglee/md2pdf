@@ -1,24 +1,31 @@
 #!/usr/bin/env python3
 """
-MCP Server for md2pdf — 将 md2pdf 作为 MCP 工具暴露给 codex、cherry studio 等智能体。
+MCP Server for md2pdf — 将 md2pdf 作为 MCP 工具暴露给 Codex、Cherry Studio 等智能体。
 
 启动方式:
     python mcp/mcp-server.py
 
-配置到 codex / cherry studio:
-    在 MCP 配置中添加:
+一般配置（Codex / Cursor / Claude Desktop / OpenCode）:
     {
         "mcpServers": {
             "md2pdf": {
                 "command": "python",
-                "args": ["/path/to/md2pdf/mcp/mcp-server.py"]
+                "args": ["/绝对路径/md2pdf/mcp/mcp-server.py"]
             }
         }
     }
 
-暴露的工具:
-    - md2pdf_convert:    转换 Markdown 文本为 PDF，返回 base64 编码的 PDF
-    - md2pdf_convert_file: 转换 .md 文件为 .pdf 文件
+Cherry Studio 配置（UI 表单）:
+    类型: 标准输入/输出（stdio）
+    名称: md2pdf
+    命令: python
+    参数（一行一个）: /绝对路径/md2pdf/mcp/mcp-server.py
+    环境变量: 留空
+    长时间运行模式: 建议开启
+
+可用工具:
+    - md2pdf_convert:      转换 Markdown 文本为 PDF/HTML，返回 base64
+    - md2pdf_convert_file:  转换 .md 文件为 .pdf/.html 文件
 """
 
 import json
