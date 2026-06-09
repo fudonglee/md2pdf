@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "md2pdf-tool"
+version = "1.0.0"
+description = "Markdown / mrkdwn → 精美 PDF 转换工具"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "md2pdf Team"},
+]
+keywords = ["markdown", "pdf", "md2pdf", "mrkdwn", "converter"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Documentation",
+    "Topic :: Printing",
+    "Topic :: Text Processing :: Markdown",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "markdown-it-py>=4.0.0",
+    "mdit-py-plugins>=0.4.0",
+    "pygments>=2.17.0",
+]
+optional-dependencies = {
+    "weasyprint": ["weasyprint>=60"],
+    "mcp": ["mcp>=1.0.0"],
+    "full": ["weasyprint>=60", "mcp>=1.0.0"],
+}
+
+[project.urls]
+Homepage = "https://github.com/fudonglee/md2pdf"
+Repository = "https://github.com/fudonglee/md2pdf"
+Documentation = "https://github.com/fudonglee/md2pdf#readme"
+
+[project.scripts]
+md2pdf = "md2pdf.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["md2pdf*"]
