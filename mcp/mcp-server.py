@@ -30,12 +30,11 @@ Cherry Studio 配置（UI 表单）:
 import base64
 import os
 import sys
-import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from md2pdf.renderer import md_to_html
+from md2pdf.renderer import md_to_html, convert, convert_file
 from md2pdf.i18n import DEFAULT_LANG
 
 # ---------- MCP SDK ----------
@@ -85,43 +84,13 @@ TOOL_DEFINITIONS = [
 ]
 
 
-def _find_weasyprint() -> str | None:
-    import shutil
-    for p in ["/opt/anaconda3/bin/weasyprint"]:
-        if os.path.isfile(p) and os.access(p, os.X_OK):
-            return p
-    wp = shutil.which("weasyprint")
-    if wp:
-        return wp
-    for p in ["/usr/local/bin/weasyprint", "/usr/bin/weasyprint", os.path.expanduser("~/.local/bin/weasyprint")]:
-        if os.path.isfile(p) and os.access(p, os.X_OK):
-            return p
-    return None
-
-
-def html_to_pdf(html: str, output_path: str) -> bool:
-    import subprocess
-    wp = _find_weasyprint()
-    if not wp:
-        return False
-    tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".html", delete=False, encoding="utf-8")
-    try:
-        tmp.write(html)
-        tmp.close()
-        r = subprocess.run([wp, tmp.name, output_path], capture_output=True, text=True, timeout=120)
-        return r.returncode == 0
-    except:
-        return False
-    finally:
-        os.unlink(tmp.name)
-
-
 def handle_convert(markdown: str, filename: str = "output.pdf", output_format: str = "pdf", lang: str = DEFAULT_LANG) -> list:
-    html = md_to_html(md_text=markdown, lang=lang)
     if output_format == "html":
+        html = md_to_html(md_text=markdown, lang=lang)
         return [types.TextContent(type="text", text=base64.b64encode(html.encode()).decode())]
+    # PDF: use shared renderer.convert
     tmp = os.path.join(tempfile.gettempdir(), filename)
-    ok = html_to_pdf(html, tmp)
+    ok = convert(markdown, tmp, lang=lang)
     if not ok:
         return [types.TextContent(type="text", text="ERROR: PDF generation failed")]
     with open(tmp, "rb") as f:
@@ -131,17 +100,17 @@ def handle_convert(markdown: str, filename: str = "output.pdf", output_format: s
 
 
 def handle_convert_file(input_path: str, output_path: str, output_format: str = "pdf", toc: bool = False, cover: bool = False, title: str = "", author: str = "", lang: str = DEFAULT_LANG) -> list:
-    md_text = Path(input_path).read_text(encoding="utf-8")
-    html = md_to_html(md_text, toc=toc, cover=cover, title=title or Path(input_path).stem, author=author, lang=lang)
-    if output_format == "html":
-        Path(output_path).write_text(html, encoding="utf-8")
-        size = Path(output_path).stat().st_size / 1024
-        return [types.TextContent(type="text", text=f"OK: {output_path} ({size:.1f} KB)")]
-    ok = html_to_pdf(html, output_path)
+    ok = convert_file(
+        input_path, output_path,
+        output_format=output_format,
+        toc=toc, cover=cover,
+        title=title, author=author,
+        lang=lang,
+    )
     if ok:
         size = Path(output_path).stat().st_size / 1024
         return [types.TextContent(type="text", text=f"OK: {output_path} ({size:.1f} KB)")]
-    return [types.TextContent(type="text", text="ERROR: PDF generation failed")]
+    return [types.TextContent(type="text", text="ERROR: conversion failed")]
 
 
 async def serve():

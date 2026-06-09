@@ -146,14 +146,74 @@ def html_to_pdf(html: str, output_path: str) -> bool:
         os.unlink(tmp_html.name)
 
 
+def md_to_html_file(md_text: str, output_path: str, **kwargs) -> bool:
+    """Convert Markdown text directly to an HTML file.
+
+    Bypasses WeasyPrint entirely — useful when you only need the
+    intermediate HTML output (for browser preview, further processing, etc.).
+
+    Args:
+        md_text: Markdown source text.
+        output_path: Path to write the .html file.
+        **kwargs: Forwarded to md_to_html() (toc, cover, title, author, lang, css).
+
+    Returns:
+        True on success, False on write error.
+    """
+    html = md_to_html(md_text, **kwargs)
+    try:
+        Path(output_path).write_text(html, encoding="utf-8")
+        return True
+    except OSError:
+        return False
+
+
+def convert_to_html(md_text: str, **kwargs) -> str:
+    """Convert Markdown text to an HTML string.
+
+    This is the clean public API for getting HTML output programmatically.
+    Equivalent to md_to_html() but explicitly named for discovery.
+
+    Args:
+        md_text: Markdown source text.
+        **kwargs: toc, cover, title, author, lang, css.
+
+    Returns:
+        Complete HTML document as a string.
+    """
+    return md_to_html(md_text, **kwargs)
+
+
 def convert(md_text: str, output_path: str, **kwargs) -> bool:
-    """One-step conversion: Markdown -> HTML -> PDF."""
+    """One-step conversion: Markdown -> HTML -> PDF (or -> HTML if format='html').
+
+    Args:
+        md_text: Markdown source text.
+        output_path: Output file path (.pdf for PDF, or .html when format='html').
+        **kwargs: Passed to md_to_html(). Use output_format='html' to skip PDF
+                  generation and write HTML directly.
+
+    Returns:
+        True on success.
+    """
+    output_format = kwargs.pop("output_format", "pdf")
+    if output_format == "html":
+        return md_to_html_file(md_text, output_path, **kwargs)
     html = md_to_html(md_text, **kwargs)
     return html_to_pdf(html, output_path)
 
 
 def convert_file(input_path: str, output_path: str, **kwargs) -> bool:
-    """Convert a .md file to .pdf, inferring title from filename."""
+    """Convert a .md file to .pdf (or .html), inferring title from filename.
+
+    Args:
+        input_path: Path to the source .md file.
+        output_path: Path to the output .pdf or .html file.
+        **kwargs: toc, cover, title, author, lang, output_format.
+
+    Returns:
+        True on success.
+    """
     with open(input_path, "r", encoding="utf-8") as f:
         md_text = f.read()
     title = kwargs.pop("title", None) or Path(input_path).stem

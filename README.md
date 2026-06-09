@@ -19,12 +19,14 @@
 |------|------|
 | **📝 格式兼容** | CommonMark、GFM（表格/任务列表/删除线）、Slack mrkdwn |
 | **🌏 中文优化** | 思源宋体 / Noto Serif CJK 排版，两端对齐 |
+| **🌐 多语言** | `--lang en` 切换英文，字体/日期/提示全链路适配 |
 | **🎨 代码高亮** | Pygments 语法高亮，支持 100+ 编程语言 |
 | **📑 目录生成** | 自动从标题提取目录（`--toc`） |
 | **📋 封面页** | 自动生成封面（`--cover`） |
 | **📊 表格渲染** | 斑马条纹、表头深色背景 |
 | **🔗 脚注支持** | 标准 Markdown 脚注 |
 | **📦 管道输入** | 支持 `cat file.md \| md2pdf -o out.pdf` |
+| **🌐 HTML 输出** | `--html` 导出中间 HTML（不依赖 WeasyPrint） |
 | **🤖 MCP 集成** | 可作为 Tool 接入 Codex、Cherry Studio、WorkBuddy |
 | **🎯 零成本** | 开源免费，MIT License |
 
@@ -91,6 +93,7 @@ md2pdf input.md -o output.pdf
 | `--font-size 12pt` | 基础字号 | 11pt |
 | `--paper-size A4` | 纸张大小 | A4 |
 | `--margin "2cm"` | 页边距 | 2.5cm 2cm |
+| `--html` | 输出 HTML 文件（代替 PDF，默认与输入文件同目录） | 生成 PDF |
 | `--css custom.css` | 使用自定义 CSS 样式 | 内置样式 |
 | `--lang zh-CN` | 界面与文档语言（支持 zh-CN, en） | zh-CN |
 | `--debug` | 输出中间 HTML（调试用） | 关闭 |
@@ -102,6 +105,19 @@ md2pdf input.md -o output.pdf
 
 ```bash
 md2pdf 笔记.md -o 笔记.pdf --toc --cover --title "学习笔记"
+```
+
+#### 🌐 输出 HTML（不生成 PDF）
+
+```bash
+# 导出为 HTML（可在浏览器直接查看，不需要 WeasyPrint）
+md2pdf doc.md --html
+
+# 指定输出路径
+md2pdf doc.md --html -o output.html
+
+# HTML + 封面 + 英文
+md2pdf guide.md --html --toc --cover --lang en
 ```
 
 #### 🐍 技术文档
@@ -267,6 +283,45 @@ args = ["/chemin/vers/md2pdf/mcp/mcp-server.py"]
 ### WorkBuddy
 
 在 WorkBuddy 的 MCP 设置中注册，命令填写：`python3 /chemin/vers/md2pdf/mcp/mcp-server.py`。
+
+---
+
+## 🐍 Python API（程序化调用）
+
+md2pdf 的所有功能都可以通过 Python 直接调用，无需 CLI。
+
+```python
+from md2pdf import md_to_html, md_to_html_file, convert_to_html, convert
+
+# Markdown → HTML 字符串
+html = md_to_html("# Title\n\nContent", toc=True, lang="en")
+
+# Markdown → 保存 .html 文件
+md_to_html_file("# Title", "output.html")
+
+# 别名（更明确的命名）
+html = convert_to_html("# Title")
+
+# Markdown → PDF 或 HTML 文件
+convert("# Title", "doc.pdf")               # 生成 PDF
+convert("# Title", "doc.html", output_format="html")  # 生成 HTML
+
+# 国际化
+from md2pdf import Lang
+t = Lang("en")
+print(t.get("toc.title"))  # "Table of Contents"
+```
+
+可用 API：
+
+| 函数 | 说明 |
+|------|------|
+| `md_to_html(md, **kwargs)` | Markdown → HTML 字符串 |
+| `md_to_html_file(md, path, **kwargs)` | Markdown → 保存 .html 文件 |
+| `convert_to_html(md, **kwargs)` | 同 `md_to_html`，别名 |
+| `convert(md, path, **kwargs)` | Markdown → 输出文件（PDF 或 HTML） |
+| `convert_file(in_path, out_path, **kwargs)` | .md 文件 → 输出文件 |
+| `Lang(code)` | 国际化翻译助手 |
 
 ---
 
